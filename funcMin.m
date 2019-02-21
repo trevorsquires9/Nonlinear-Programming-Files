@@ -1,9 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Function Minimization
 %
-% Author
-%   Trevor Squires
-%
 % Inputs
 %   f - handle for function evaluation
 %   getDirection - function handle for computing direction
