@@ -40,7 +40,7 @@ function [solu,output] = funcMin(f,getDirection,x0,param)
 %% Initialize variables
 if ~(isfield(param,'getStepSize'))
     lambda = defaultField(param,'lambda',0.001);
-    getStepSize = @(x) lambda;
+    getStepSize = @(x,d) lambda;
 else %if we don't have a get step size function, user must have input one
     getStepSize = param.getStepSize;
 end
@@ -61,10 +61,8 @@ for it = 1:itCount
     direction = getDirection(x(:,it));
     
     % Compute step size
-    lambda = getStepSize(x(:,it));
-    disp(lambda)
-    disp(x(:,it))
-    disp(direction)
+    lambda = getStepSize(x(:,it),direction);
+    
     % New point
     x(:,it+1) = x(:,it) + lambda*direction;
 
@@ -72,6 +70,9 @@ for it = 1:itCount
     %Optional verbose variables
     if verbose
         fVal(it+1) = f(x(:,it+1));
+        if fVal(it+1) >= fVal(it)
+            disp('help')
+        end
     end
     
     % Compute exit conditions

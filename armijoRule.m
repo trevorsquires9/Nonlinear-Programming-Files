@@ -1,5 +1,5 @@
-function [stepSize] = armijoRule(theta, thetaGrad, eps, stepSize)
-theta0 = thetaGrad(0);
+function [stepSize] = armijoRule(theta, thetaGrad, eps, stepSize,dim)
+theta0 = thetaGrad(zeros(dim,1));
 
 thetaBar = @(y) theta(0) + y*eps*theta0;
 thetaPt = theta(stepSize);
@@ -18,5 +18,4 @@ else
         thetaPt = theta(stepSize);
         thetaBarPt = thetaBar(stepSize);
     end
-    stepSize = stepSize*2;
 end
