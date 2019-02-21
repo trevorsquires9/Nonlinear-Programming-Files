@@ -48,38 +48,50 @@ end
 eps = defaultField(param,'eps',1e-8);
 itCount = defaultField(param,'itCount',1000);
 verbose = defaultField(param,'verbose',0);
-getDirection = defaultField(param,'getDirection',0);
 
 
 n = length(x0);
 x = zeros(n,itCount);
-fx = zeros(1,itCount);
+fVal = zeros(1,itCount);
 x(:,1) = x0;
-fx(1) = f(x0);
+fVal(1) = f(x0);
 
-for it = 2:itCount
-    % Compute direction
+for it = 1:itCount
+    % Compute direction 
     direction = getDirection(x(:,it));
+    
     
     % Compute step size
     lambda = getStepSize(x(:,it));
     
     % New point
     x(:,it+1) = x(:,it) + lambda*direction;
-    it = it+1;
+
     
     %Optional verbose variables
     if verbose
-        fx(it) = f(x(:,it));
+        fVal(it+1) = f(x(:,it+1));
     end
     
     % Compute exit conditions
-    if norm(x(:,it)-x(:,it-1)) < eps
+    if norm(x(:,it+1)-x(:,it)) < eps
         break;
     end
 end
-if it =
 
+% Set output parameters
+if it == itCount
+    output.exitFlag = 1;
+else
+    output.exitFlag = 0;
+end
+
+solu = x(:,it-1);
+output.it = it;
+if verbose
+    output.iterates = x(:,1:it);
+    output.objVal = fVal(:,1:it);
+end
 
         
 end

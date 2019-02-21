@@ -3,7 +3,7 @@ function [stepSize] = bisectSearch(gradf, tol, uB)
 a = 0;
 b = uB;
 
-while b-a > tol
+while b-a > tol 
     stepSize = (b+a)/2;
     gradIterate = gradf(stepSize);
     if gradIterate == 0

@@ -57,19 +57,21 @@ x(:,1) = x0;
 fVal(1) = f(x0);
 
 for it = 1:itCount
-    % Compute direction
+    % Compute direction 
     direction = getDirection(x(:,it));
     
     % Compute step size
     lambda = getStepSize(x(:,it));
-    
+    disp(lambda)
+    disp(x(:,it))
+    disp(direction)
     % New point
     x(:,it+1) = x(:,it) + lambda*direction;
 
     
     %Optional verbose variables
     if verbose
-        fVal(it) = f(x(:,it+1));
+        fVal(it+1) = f(x(:,it+1));
     end
     
     % Compute exit conditions
