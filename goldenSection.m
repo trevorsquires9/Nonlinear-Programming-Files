@@ -1,4 +1,4 @@
-function [stepSize] = goldenSection(f, tol, iniInt)
+function [stepSize,k] = goldenSection(f, tol, iniInt)
 
 phi = (1+sqrt(5))/2-1;
 a = iniInt(1);
@@ -9,7 +9,7 @@ u = a + phi*(b-a);
 
 fl = f(l);
 fu = f(u);
-k = 1;
+k = 0;
 
 while b-a > tol
     if fl > fu

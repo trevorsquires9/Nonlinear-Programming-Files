@@ -48,8 +48,8 @@ semilogy(0:output.it-1, output.objVal)
 f = @(x) (x(1)-2)^4 + (x(1) - 2*x(2))^2;
 gradf = @(x) [-4*(x(1)-2)^3 + 2*(x(1)-2*x(2)); 4*(x(1)-2*x(2))];
 x0 = [0;3];
-param.eps = 1e-10;
-param.getStepSize = @(y,d) goldenSection(@(x) f(y+d*x),1e-8,[0,8]); 
+param.eps = 1e-5;
+param.getStepSize = @(y,d) goldenSection(@(x) f(y+d*x),1e-3,[0,8]); 
 param.itCount = 1000;
 param.verbose = true;
 
@@ -64,7 +64,7 @@ gradf = @(x) [4*(x(1)-2)^3 + 2*(x(1)-2*x(2)); -4*(x(1)-2*x(2))];
 getDirection = @(x) -1*gradf(x);
 thetaGrad = @(x,y,d) d'*[4*(y(1)+x(1)*d(1)-2)^3+2*(y(1)+x(1)*d(1)-2*y(2)-2*x(2)*d(2));-4*(y(1)+x(1)*d(1)- 2*y(2) - 2*x(2)*d(2))];
 x0 = [0;3];
-param.eps = 1e-10;
+param.eps = 1e-5;
 
 param.getStepSize = @(y,d) armijoRule(@(x) f(y+x*d),@(x) thetaGrad(x,y,d),0.2,7,2); 
 

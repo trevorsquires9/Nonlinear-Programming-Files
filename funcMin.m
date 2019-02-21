@@ -53,12 +53,15 @@ fVal = zeros(1,itCount);
 x(:,1) = x0;
 fVal(1) = f(x0);
 
+totCalls = 0;
+
 for it = 1:itCount
     % Compute direction 
     direction = getDirection(x(:,it));
     
     % Compute step size
-    lambda = getStepSize(x(:,it),direction);
+    [lambda,funcCalls] = getStepSize(x(:,it),direction);
+    totCalls = totCalls+funcCalls;
     
     % New point
     x(:,it+1) = x(:,it) + lambda*direction;
@@ -73,7 +76,7 @@ for it = 1:itCount
     end
     
     % Compute exit conditions
-    if norm(x(:,it+1)-x(:,it)) < eps
+    if fVal(it+1) < eps
         break;
     end
 end
@@ -90,6 +93,7 @@ output.it = it;
 if verbose
     output.iterates = x(:,1:it);
     output.objVal = fVal(:,1:it);
+    output.funcCalls = totCalls;
 end
 
         
