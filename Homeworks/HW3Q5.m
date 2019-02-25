@@ -6,7 +6,7 @@ clear;
 clc;
 
 tol = 1e-10;    % Tolerance such that |f'(sol)| < tol
-maxIter = 50;   % Max # of iterations (in case of divergence)
+maxIter = 100;   % Max # of iterations (in case of divergence)
 
 %% Test 1
 
@@ -24,13 +24,13 @@ newton1
 
 %% Test 2
 
-x0 = 0;     % Starting point
+x0 = 0.6;     % Starting point
 
 % g = x.^4/4 - x.^2 + 2.*x;
 gradg = @(x) x.^3 - 2.*x + 2;
 hessg = @(x) 3*x.^2 - 2;
 
-[newton2.flag,newton2.sol,newton2.iter] = newton(gradg,hessg,tol,x0,maxIter);
+[newton2.flag,newton2.sol,newton2.iter] = newton(@gradf,@hessf,tol,x0,maxIter);
 
 newton2
 

@@ -5,7 +5,7 @@
 function y = hessf(x)
 
 if x >= 0
-    y = 12*x.*(2-3*x);
+    y = vpa(12*x.*(2-3*x));
 else
-    y = 12*x.*(2+3*x);
+    y = vpa(12*x.*(2+3*x));
 end

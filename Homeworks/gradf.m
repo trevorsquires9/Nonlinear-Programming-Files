@@ -5,7 +5,7 @@
 function y = gradf(x)
 
 if x >= 0
-    y = 12*x.^2.*(1-x);
+    y = vpa(12*x.^2.*(1-x));
 else
-    y = 12*x.^2.*(1+x);
+    y = vpa(12*x.^2.*(1+x));
 end

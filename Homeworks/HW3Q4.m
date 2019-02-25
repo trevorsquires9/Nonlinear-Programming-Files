@@ -10,7 +10,7 @@ iniInt = [-3, 6];         % Initial interval of uncertainty
 tol = 1e-8;               % Allowable length of uncertainty
 
 
-[bisec.flag,bisec.output,bisec.iter] = bisection(f,gradf,iniInt,tol);
+[bisec.flag,bisec.output,bisec.iter] = bisection(gradf,iniInt,tol);
 % Output of your function: 
 %   flag - 1, if output is interval of uncertainty;
 %          0, if output is an optimal solution
