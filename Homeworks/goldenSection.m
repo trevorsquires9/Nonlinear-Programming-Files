@@ -18,7 +18,6 @@
 %
 % NOTES
 %  
-%   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [finalInt,funcEval] = goldenSection(f, iniInt,tol)
