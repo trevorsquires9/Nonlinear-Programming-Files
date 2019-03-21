@@ -1,0 +1,76 @@
+% MATH:8110 Spring 2019 
+% Homework 4, Question 1
+% You are encouraged to try different parameters, such as different starting points, to 
+% see what happens
+
+clear;
+clc;
+close all;
+
+%% Rosenbrock function
+
+f = @(x) 100*(x(2)-x(1).^2).^2+(1-x(1)).^2;
+gradf = @(x) [-400*(x(2)-x(1).^2).*x(1)+2*(x(1)-1);
+             200*(x(2)-x(1).^2)];
+hessf = @(x) [-400*(x(2)-3*x(1).^2)+2, -400*x(1);
+              -400*x(1),                    200];
+          
+%% Parameters
+
+tol = 1e-4;     % gradient descent method terminates when ||gradf(x)|| < tol
+x0 = [0;0];     % starting point
+maxIter = 1e2;  % gradient descent method terminates when # iterations 
+                % exceeds maxIter (in case it converges too slow)
+H11 = [802 -400; -400 200];
+scale = inv(chol(H11);
+%scale = eye(2);
+                
+                
+armijoParams.c = 1e-4;
+armijoParams.rho = 0.7;
+armijoParams.alphaMax = 1;
+% armijoParams is a structure with parameters used in Armijo's rule, which
+% includes: 
+%   - c: parameter in Armijo's condition
+%   - rho: reduction rate
+%   - alphaMax: starting stepsize
+
+
+%% Steepest descent method
+
+[x,iter,vec_x,vec_fx,vec_alpha,vec_gx,vec_ngx] = myGDArmijo(f,gradf,scale,tol,x0,armijoParams,maxIter);
+
+% basic output:
+%   - x: optimal solution
+%
+% outputs for analysis:
+%   - iter: # iterations
+%   - vec_x: vector of iterative points (size: 2-by-iter)
+%   - vec_fx: function values of vec_x
+%   - vec_alpha: vector of step sizes accepted
+%
+% optional:
+%   - vec_gx: gradient function values of vec_x (size: 2-by-iter)
+%   - vec_ngf: norms of gradient function values
+
+
+%% Plot (Feel free to add more figures or play with different parameters.) 
+
+% stepsizes adopted
+figure(1);
+plot(vec_alpha);
+
+% linear convergence
+figure(2);
+semilogy(vec_fx);
+
+% zig-zag
+figure(3);
+[X,Y]=meshgrid(-0.1:0.01:1.1);
+Z=100*(Y-X.^2).^2+(ones(size(X))-X).^2;
+levels = 0:0.2:5;
+contour(X,Y,Z,levels)
+hold on;
+plot(1,1,'x');
+plot(vec_x(1,:),vec_x(2,:));
+hold off;
