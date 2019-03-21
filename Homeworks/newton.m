@@ -38,10 +38,10 @@ for it = 1:maxIt
         break;
     end
     hessfx = hessf(x);
-    if hessfx == 0 %exit condition 2
+    if det(hessfx) < tol %exit condition 2
         flag = -1;
         break;
     end
-    x = x-gradfx/hessfx; %newtons next point
+    x = x-(hessfx\gradfx); %newtons next point
 end
 solu = x;
