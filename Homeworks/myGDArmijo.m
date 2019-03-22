@@ -28,7 +28,7 @@
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [x,it,xk,fxk,alphak, gradfxk, normGrad] = myGDArmijo(f,gradf,scale,tol,x0,armijoParams,maxIter)
+function [x,it,xk,fxk,alphak, gradfxk, normGrad] = myGDArmijo(f,gradf,tol,x0,armijoParams,maxIter)
 
 %% Initialization
 n = length(x0);
@@ -54,8 +54,8 @@ it = 1;
 while it <= maxIter && normGrad(it) > tol
     
     %% Armijo's Rule for steepest descent
-    theta = @(lambda) f(xk(:,it)+lambda*(scale*scale')*(-gradfxk(:,it)));
-    thetaGrad0 = - (((scale*scale')*(gradfxk(:,it)))'*gradfxk(:,it));
+    theta = @(lambda) f(xk(:,it)+lambda*(-gradfxk(:,it)));
+    thetaGrad0 = - (gradfxk(:,it)'*gradfxk(:,it));
     thetaHat = @(lambda) theta(0) + lambda*c*thetaGrad0;
     stepSize = alphaMax;
     while theta(stepSize) <= thetaHat(stepSize)
@@ -66,7 +66,7 @@ while it <= maxIter && normGrad(it) > tol
     end
     alphak(it) = stepSize;
     
-    xk(:,it+1) = xk(:,it) - alphak(it)*(scale*scale')*gradfxk(:,it); %update xk+1
+    xk(:,it+1) = xk(:,it) - alphak(it)*gradfxk(:,it); %update xk+1
     fxk(it+1) = f(xk(:,it+1)); %and other parameters
     gradfxk(:,it+1) = gradf(xk(:,it+1));
     normGrad(it+1) = norm(gradfxk(:,it+1),2);
