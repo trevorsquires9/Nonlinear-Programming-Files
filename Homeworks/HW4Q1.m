@@ -8,18 +8,24 @@ clc;
 close all;
 
 %% Rosenbrock function
+%T = randn(2,2);
+T = eye(2);
 
-f = @(x) 100*(x(2)-(x(1)/100).^2).^2+(1-(x(1)/100)).^2;
-gradf = @(x) [-400*(x(2)-(x(1)/100).^2).*(x(1)/100)+2*((x(1)/100)-1);
-             200*(x(2)-(x(1)/100).^2)];
-hessf = @(x) [-400*(x(2)-3*(x(1)/100).^2)+2, -4*x(1);
-              -4*x(1),                    200];
+
+f = @(x) 100*(x(2)-x(1).^2).^2+(1-x(1)).^2;
+gradf = @(x) [-400*(x(2)-x(1).^2).*x(1)+2*(x(1)-1);
+             200*(x(2)-x(1).^2)];
+hessf = @(x) [-400*(x(2)-3*x(1).^2)+2, -400*x(1);
+              -400*x(1),                    200];
           
+fmod = @(x) f(T*x);
+gradfmod = @(x) gradf(T*x);
+hessfmod = @(x) hessf(T*x);
 %% Parameters
 
 tol = 1e-4;     % gradient descent method terminates when ||gradf(x)|| < tol
 x0 = [0;0];     % starting point
-maxIter = 1e6;  % gradient descent method terminates when # iterations 
+maxIter = 1e5;  % gradient descent method terminates when # iterations 
                 % exceeds maxIter (in case it converges too slow)
                 
                 
@@ -35,7 +41,7 @@ armijoParams.alphaMax = 1;
 
 %% Steepest descent method
 
-[x,iter,vec_x,vec_fx,vec_alpha,vec_gx,vec_ngx] = myGDArmijo(f,gradf,tol,x0,armijoParams,maxIter);
+[x,iter,vec_x,vec_fx,vec_alpha,vec_gx,vec_ngx] = myGDArmijo(fmod,gradfmod,tol,x0,armijoParams,maxIter);
 
 % basic output:
 %   - x: optimal solution
@@ -53,21 +59,21 @@ armijoParams.alphaMax = 1;
 
 %% Plot (Feel free to add more figures or play with different parameters.) 
 
-% stepsizes adopted
-figure(1);
-plot(vec_alpha);
-
-% linear convergence
-figure(2);
-semilogy(vec_fx);
-
-% zig-zag
-figure(3);
-[X,Y]=meshgrid(-0.1:0.01:1.1);
-Z=100*(Y-X.^2).^2+(ones(size(X))-X).^2;
-levels = 0:0.2:5;
-contour(X,Y,Z,levels)
-hold on;
-plot(1,1,'x');
-plot(vec_x(1,:),vec_x(2,:));
-hold off;
+% % stepsizes adopted
+% figure(1);
+% plot(vec_alpha);
+% 
+% % linear convergence
+% figure(2);
+% semilogy(vec_fx);
+% 
+% % zig-zag
+% figure(3);
+% [X,Y]=meshgrid(-0.1:0.01:1.1);
+% Z=100*(Y-X.^2).^2+(ones(size(X))-X).^2;
+% levels = 0:0.2:5;
+% contour(X,Y,Z,levels)
+% hold on;
+% plot(1,1,'x');
+% plot(vec_x(1,:),vec_x(2,:));
+% hold off;

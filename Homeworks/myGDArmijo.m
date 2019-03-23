@@ -78,3 +78,4 @@ xk = xk(:,1:it);
 fxk = fxk(:,1:it);
 gradfxk = gradfxk(:,1:it);
 normGrad = normGrad(:,1:it);
+alphak = alphak(:,1:it);
